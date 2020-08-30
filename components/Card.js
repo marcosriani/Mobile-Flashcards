@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { getDecks } from '../utils/helpers';
 
-class Settings extends Component {
+class Card extends Component {
   buttonPressed = (e) => {
     Alert.alert('hi');
   };
@@ -17,11 +17,14 @@ class Settings extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Do you wish to reset your data?</Text>
+        <Text style={styles.title}>Add a title to your new deck</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <TextInput placeholder='Deck Title' style={styles.textInput} />
+        </View>
 
-        <View style={{ flexDirection: 'row', marginTop: 20 }}>
+        <View style={{ flexDirection: 'row', marginTop: 50 }}>
           <TouchableOpacity style={styles.button} onPress={this.buttonPressed}>
-            <Text style={styles.text}>Reset data</Text>
+            <Text style={styles.text}>Create Deck</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -29,18 +32,18 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default Card;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: 150,
   },
   title: { fontSize: 25, marginBottom: 25, color: 'lightslategrey' },
   button: {
     alignItems: 'center',
-    backgroundColor: 'crimson',
+    backgroundColor: 'deepskyblue',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
@@ -49,7 +52,16 @@ const styles = StyleSheet.create({
     flex: 0.45,
     height: 50,
   },
-
+  textInput: {
+    fontSize: 20,
+    backgroundColor: 'white',
+    flex: 0.9,
+    height: 50,
+    padding: 10,
+    borderRadius: 5,
+    borderColor: 'lightskyblue',
+    borderWidth: 1,
+  },
   text: {
     color: 'white',
     fontWeight: 'bold',

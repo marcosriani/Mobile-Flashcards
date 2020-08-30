@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
+import AddCard from './components/AddCard';
 import Settings from './components/Settings';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
@@ -20,6 +21,80 @@ const UdaciStatusBar = ({ backgroundColor, ...props }) => {
   );
 };
 
+// Stack navigator
+const DecksStack = createStackNavigator();
+const AddDeckStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
+
+const DecksStackScreen = () => (
+  <DecksStack.Navigator>
+    <DecksStack.Screen
+      name='Decks'
+      component={DeckList}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+    {/* Stop here */}
+    <DecksStack.Screen
+      name='Details'
+      component={AddCard}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+  </DecksStack.Navigator>
+);
+
+const AddDeckStackScreen = () => (
+  <AddDeckStack.Navigator>
+    <AddDeckStack.Screen
+      name='AddDeck'
+      component={AddDeck}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+  </AddDeckStack.Navigator>
+);
+
+const SettingsStackScreen = () => (
+  <SettingsStack.Navigator>
+    <SettingsStack.Screen
+      name='Settings'
+      component={Settings}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+  </SettingsStack.Navigator>
+);
+
+// Tab Navigator
 const Tab = createMaterialBottomTabNavigator();
 
 const Tabs = () => {
@@ -32,10 +107,10 @@ const Tabs = () => {
           header: null,
         },
       }}
-      activeColor={Platform.OS === 'ios' ? 'green' : 'red'}
+      activeColor={Platform.OS === 'ios' ? 'black' : 'blue'}
       inactiveColor='gray'
       barStyle={{
-        backgroundColor: Platform.OS === 'ios' ? 'pink' : 'purple',
+        backgroundColor: Platform.OS === 'ios' ? 'lightskyblue' : 'purple',
         shadowColor: 'rgba(0,0,0,0.24)',
         shadowOffset: {
           width: 0,
@@ -47,7 +122,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name='Decks'
-        component={DeckList}
+        component={DecksStackScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name='ios-bookmarks' size={26} color={color} />
@@ -56,7 +131,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name='Add Deck'
-        component={AddDeck}
+        component={AddDeckStackScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name='plus-square' size={26} color={color} />
@@ -65,7 +140,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name='Settings'
-        component={Settings}
+        component={SettingsStackScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name='ios-speedometer' size={26} color={color} />
@@ -76,44 +151,19 @@ const Tabs = () => {
   );
 };
 
-const Stack = createStackNavigator();
-
-const MainNavigator = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Decks' component={Tabs} />
-        <Stack.Screen
-          name='Add Deck'
-          component={AddDeck}
-          options={{
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: 'purple',
-            },
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+const MainNavigator = () => (
+  <NavigationContainer>
+    <Tabs />
+  </NavigationContainer>
+);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <UdaciStatusBar backgroundColor='pink' barStyle='light-content' />
+    <View style={{ flex: 1 }}>
+      <UdaciStatusBar backgroundColor='lightskyblue' barStyle='light-content' />
       <MainNavigator />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-  },
-  statusBar: {
-    backgroundColor: 'red',
-  },
-});
+const styles = StyleSheet.create({});

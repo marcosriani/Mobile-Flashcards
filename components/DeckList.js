@@ -1,13 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Alert, SafeAreaView, ScrollView } from 'react-native';
+import Deck from './Deck';
 import { getDecks } from '../utils/helpers';
 
 class DeckList extends Component {
+  buttonPressed = (e) => {
+    Alert.alert('hi');
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>List of decks goes in here</Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <Deck deckTitle='React' numberOfCards={2} />
+          <Deck deckTitle='JavaScript' numberOfCards={1} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='React' numberOfCards={2} />
+          <Deck deckTitle='JavaScript' numberOfCards={1} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='React' numberOfCards={2} />
+          <Deck deckTitle='JavaScript' numberOfCards={1} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+          <Deck deckTitle='Redux' numberOfCards={3} />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
