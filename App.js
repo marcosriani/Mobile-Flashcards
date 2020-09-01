@@ -5,6 +5,7 @@ import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
+import Score from './components/Score';
 import DeckDetail from './components/DeckDetail';
 import Settings from './components/Settings';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -72,6 +73,19 @@ const DecksStackScreen = () => (
     <DecksStack.Screen
       name='Quiz'
       component={Quiz}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+    <DecksStack.Screen
+      name='Score'
+      component={Score}
       options={{
         headerStyle: {
           backgroundColor: 'lightskyblue',

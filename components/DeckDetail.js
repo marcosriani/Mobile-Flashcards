@@ -45,7 +45,7 @@ class DeckDetail extends Component {
             ]}
             onPress={this.buttonPressedAddCard}
           >
-            <Text style={styles.text}>Add Card</Text>
+            <Text style={styles.text}>Add New Question</Text>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', marginTop: 18 }}>

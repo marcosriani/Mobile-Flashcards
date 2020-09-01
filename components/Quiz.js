@@ -10,43 +10,66 @@ import {
 import { getDecks } from '../utils/helpers';
 
 class Quiz extends Component {
-  buttonPressedAddCard = (e) => {
-    this.props.navigation.navigate('AddCard', {
+  state = {
+    showAnswer: false,
+    buttonText: 'Show Answer',
+  };
+
+  buttonPressedCorrect = (e) => {
+    this.props.navigation.navigate('Score', {
       itemId: this.props.id,
       otherParam: 'anything you want here',
     });
   };
 
-  buttonPressedQuiz = (e) => {
-    this.props.navigation.navigate('Quiz', {
-      itemId: this.props.id,
-      otherParam: 'anything you want here',
-    });
+  buttonPressedIncorrect = (e) => {
+    Alert.alert('Incorrect');
   };
 
-  buttonPressedDelete = (e) => {
-    Alert.alert('Deleted');
+  buttonPressedAnswer = (e) => {
+    this.setState((prevState) => ({
+      showAnswer: !prevState.showAnswer,
+      buttonText:
+        prevState.buttonText === 'Show Answer'
+          ? 'Show Question'
+          : 'Show Answer',
+    }));
   };
 
   render() {
+    const buttonColor =
+      this.state.buttonText === 'Show Answer' ? 'maroon' : 'silver';
+
     return (
       <View style={styles.container}>
         <Text style={styles.numberOfCards}>2/2</Text>
 
         <View style={{ alignItems: 'center' }}>
-          <View style={{ marginTop: 5, backgroundColor: 'white', padding: 55 }}>
-            <Text style={styles.title}>Question</Text>
+          {this.state.showAnswer ? (
+            <View style={styles.card}>
+              <Text style={styles.title}>Answer</Text>
 
-            <Text>Where do you Make Ajax requests in React?</Text>
-          </View>
+              <Text>
+                Don't get discouraged! Try building your project in an Expo
+                Snack🍎. In order to submit the project, just download the zip
+                file and submit that file
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.card}>
+              <Text style={styles.title}>Question</Text>
+
+              <Text>Where do you Make Ajax requests in React?</Text>
+            </View>
+          )}
 
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: 'lightgreen', flex: 0.9, height: 75 },
+                { backgroundColor: 'lightgreen', flex: 0.9, height: 60 },
               ]}
-              onPress={this.buttonPressedQuiz}
+              onPress={this.buttonPressedCorrect}
             >
               <Text style={styles.text}>Correct</Text>
             </TouchableOpacity>
@@ -55,9 +78,9 @@ class Quiz extends Component {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: 'lightsalmon', flex: 0.9, height: 75 },
+                { backgroundColor: 'lightsalmon', flex: 0.9, height: 60 },
               ]}
-              onPress={this.buttonPressedAddCard}
+              onPress={this.buttonPressedIncorrect}
             >
               <Text style={styles.text}>Incorrect</Text>
             </TouchableOpacity>
@@ -66,11 +89,11 @@ class Quiz extends Component {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: 'lightgrey', flex: 0.4, height: 50 },
+                { backgroundColor: buttonColor, flex: 0.9, height: 60 },
               ]}
-              onPress={this.buttonPressedQuiz}
+              onPress={this.buttonPressedAnswer}
             >
-              <Text style={styles.text}>Show Answer</Text>
+              <Text style={styles.text}>{this.state.buttonText}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -92,9 +115,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 25,
   },
+  card: {
+    backgroundColor: 'white',
+    padding: 40,
+    height: 210,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
     color: 'lightslategrey',
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 20,
     textAlign: 'center',
   },
   button: {
