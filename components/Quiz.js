@@ -37,8 +37,12 @@ class Quiz extends Component {
   };
 
   render() {
-    const buttonColor =
+    const buttonShowAnswerColor =
       this.state.buttonText === 'Show Answer' ? 'maroon' : 'silver';
+    const buttonCorrectColor =
+      this.state.buttonText === 'Show Answer' ? 'silver' : 'lightgreen';
+    const buttonIncorrectColor =
+      this.state.buttonText === 'Show Answer' ? 'silver' : 'lightsalmon';
 
     return (
       <View style={styles.container}>
@@ -62,40 +66,56 @@ class Quiz extends Component {
               <Text>Where do you Make Ajax requests in React?</Text>
             </View>
           )}
-
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: 'lightgreen', flex: 0.9, height: 60 },
-              ]}
-              onPress={this.buttonPressedCorrect}
-            >
-              <Text style={styles.text}>Correct</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: 'row', marginTop: 5 }}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                { backgroundColor: 'lightsalmon', flex: 0.9, height: 60 },
-              ]}
-              onPress={this.buttonPressedIncorrect}
-            >
-              <Text style={styles.text}>Incorrect</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flexDirection: 'row', marginTop: 5 }}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                { backgroundColor: buttonColor, flex: 0.9, height: 60 },
+                {
+                  backgroundColor: buttonShowAnswerColor,
+                  flex: 0.9,
+                  height: 60,
+                },
               ]}
               onPress={this.buttonPressedAnswer}
             >
               <Text style={styles.text}>{this.state.buttonText}</Text>
             </TouchableOpacity>
           </View>
+
+          {this.state.showAnswer && (
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ marginTop: 5, height: 60, width: 170 }}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: buttonCorrectColor,
+                      flex: 0.9,
+                      height: 60,
+                    },
+                  ]}
+                  onPress={this.buttonPressedCorrect}
+                >
+                  <Text style={styles.text}>Correct</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ marginTop: 5, height: 60, width: 170 }}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: buttonIncorrectColor,
+                      flex: 0.9,
+                      height: 60,
+                    },
+                  ]}
+                  onPress={this.buttonPressedIncorrect}
+                >
+                  <Text style={styles.text}>Incorrect</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -118,7 +138,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     padding: 40,
-    height: 210,
+    height: 220,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',

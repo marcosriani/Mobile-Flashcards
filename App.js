@@ -148,7 +148,7 @@ const Tabs = () => {
           header: null,
         },
       }}
-      activeColor={Platform.OS === 'ios' ? 'black' : 'blue'}
+      activeColor={Platform.OS === 'ios' ? 'dodgerblue' : 'blue'}
       inactiveColor='gray'
       barStyle={{
         backgroundColor: Platform.OS === 'ios' ? 'lightskyblue' : 'purple',
