@@ -4,7 +4,10 @@ import { getDecks } from '../utils/helpers';
 
 class Deck extends Component {
   buttonPressed = (e) => {
-    Alert.alert('hi');
+    this.props.navigation.navigate('DeckDetail', {
+      itemId: this.props.id,
+      otherParam: 'anything you want here',
+    });
   };
 
   render() {

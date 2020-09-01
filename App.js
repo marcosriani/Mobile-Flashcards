@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
+import Quiz from './components/Quiz';
+import DeckDetail from './components/DeckDetail';
 import Settings from './components/Settings';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
@@ -41,10 +43,35 @@ const DecksStackScreen = () => (
         },
       }}
     />
-    {/* Stop here */}
     <DecksStack.Screen
-      name='Details'
+      name='DeckDetail'
+      component={DeckDetail}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+    <DecksStack.Screen
+      name='AddCard'
       component={AddCard}
+      options={{
+        headerStyle: {
+          backgroundColor: 'lightskyblue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    />
+    <DecksStack.Screen
+      name='Quiz'
+      component={Quiz}
       options={{
         headerStyle: {
           backgroundColor: 'lightskyblue',
