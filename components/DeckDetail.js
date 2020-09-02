@@ -13,14 +13,16 @@ class DeckDetail extends Component {
   buttonPressedAddCard = (e) => {
     this.props.navigation.navigate('AddCard', {
       itemId: this.props.id,
-      otherParam: 'anything you want here',
+      numberOfCards: this.props.numberOfCards,
     });
   };
 
   buttonPressedQuiz = (e) => {
+    const { itemId, numberOfCards } = this.props.route.params;
+
     this.props.navigation.navigate('Quiz', {
-      itemId: this.props.id,
-      otherParam: 'anything you want here',
+      itemId: JSON.parse(JSON.stringify(itemId)),
+      numberOfCards: JSON.parse(JSON.stringify(numberOfCards)),
     });
   };
 
@@ -29,13 +31,14 @@ class DeckDetail extends Component {
   };
 
   render() {
-    const { itemId } = this.props.route.params;
+    const { itemId, numberOfCards } = this.props.route.params;
     const cardId = JSON.parse(JSON.stringify(itemId));
+    const numberOfQuestions = JSON.parse(JSON.stringify(numberOfCards));
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{cardId}</Text>
-        <Text style={styles.subTitle}>2 cards</Text>
+        <Text style={styles.subTitle}>{numberOfQuestions} cards</Text>
 
         <View style={{ flexDirection: 'row', marginTop: 30 }}>
           <TouchableOpacity

@@ -8,18 +8,26 @@ import {
   TextInput,
 } from 'react-native';
 import { getDecks } from '../utils/helpers';
+import { connect } from 'react-redux';
 
 class Quiz extends Component {
   state = {
     showAnswer: false,
     buttonText: 'Show Answer',
+    questionIndex: 0,
   };
 
   buttonPressedCorrect = (e) => {
-    this.props.navigation.navigate('Score', {
-      itemId: this.props.id,
-      otherParam: 'anything you want here',
-    });
+    // Changing questions and answer in card
+    this.setState((prevState) => ({
+      showAnswer: false,
+      buttonText: 'Show Answer',
+      questionIndex: prevState.questionIndex + 1,
+    }));
+    // this.props.navigation.navigate('Score', {
+    //   itemId: this.props.id,
+    //   otherParam: 'anything you want here',
+    // });
   };
 
   buttonPressedIncorrect = (e) => {
@@ -37,6 +45,7 @@ class Quiz extends Component {
   };
 
   render() {
+    // Button color
     const buttonShowAnswerColor =
       this.state.buttonText === 'Show Answer' ? 'maroon' : 'silver';
     const buttonCorrectColor =
@@ -44,9 +53,15 @@ class Quiz extends Component {
     const buttonIncorrectColor =
       this.state.buttonText === 'Show Answer' ? 'silver' : 'lightsalmon';
 
+    // Card ID
+    const { decks, itemId } = this.props;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.numberOfCards}>2/2</Text>
+        <Text style={styles.numberOfCards}>
+          {this.props.itemId} - {this.state.questionIndex + 1}/
+          {this.props.numberOfCards}
+        </Text>
 
         <View style={{ alignItems: 'center' }}>
           {this.state.showAnswer ? (
@@ -54,16 +69,16 @@ class Quiz extends Component {
               <Text style={styles.title}>Answer</Text>
 
               <Text>
-                Don't get discouraged! Try building your project in an Expo
-                Snack🍎. In order to submit the project, just download the zip
-                file and submit that file
+                {decks[itemId].questions[this.state.questionIndex].answer}
               </Text>
             </View>
           ) : (
             <View style={styles.card}>
               <Text style={styles.title}>Question</Text>
 
-              <Text>Where do you Make Ajax requests in React?</Text>
+              <Text>
+                {decks[itemId].questions[this.state.questionIndex].question}
+              </Text>
             </View>
           )}
           <View style={{ flexDirection: 'row', marginTop: 15 }}>
@@ -122,7 +137,19 @@ class Quiz extends Component {
   }
 }
 
-export default Quiz;
+const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps);
+
+  const { itemId, numberOfCards } = ownProps.route.params;
+
+  return {
+    itemId: JSON.parse(JSON.stringify(itemId)),
+    numberOfCards: JSON.parse(JSON.stringify(numberOfCards)),
+    decks: state,
+  };
+};
+
+export default connect(mapStateToProps)(Quiz);
 
 const styles = StyleSheet.create({
   numberOfCards: {
@@ -139,6 +166,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 40,
     height: 220,
+    minWidth: 370,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',

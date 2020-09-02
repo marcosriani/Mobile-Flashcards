@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { getDecks } from '../utils/helpers';
 
 class Deck extends Component {
   buttonPressed = (e) => {
     this.props.navigation.navigate('DeckDetail', {
       itemId: this.props.id,
-      otherParam: 'anything you want here',
+      numberOfCards: this.props.numberOfCards,
     });
   };
 
