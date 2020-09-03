@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
-import { getDecks } from '../utils/helpers';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { resetStore } from '../actions';
+import { connect } from 'react-redux';
 
 class Settings extends Component {
-  buttonPressed = (e) => {
-    Alert.alert('hi');
+  buttonPressed = () => {
+    Alert.alert('Reset Data', 'Are you sure you want to reset your data?', [
+      {
+        text: 'Delete Data',
+        onPress: () => {
+          this.props.resetStore();
+          Alert.alert('Your data has been reset successfully!');
+        },
+      },
+      {
+        text: 'Cancel',
+        onPress: () => this.props.navigation.navigate('Settings'),
+      },
+    ]);
   };
 
   render() {
@@ -21,7 +27,7 @@ class Settings extends Component {
 
         <View style={{ flexDirection: 'row', marginTop: 20 }}>
           <TouchableOpacity style={styles.button} onPress={this.buttonPressed}>
-            <Text style={styles.text}>Reset data</Text>
+            <Text style={styles.text}>Reset Data</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -29,7 +35,7 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default connect(null, { resetStore })(Settings);
 
 const styles = StyleSheet.create({
   container: {
