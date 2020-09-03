@@ -8,11 +8,36 @@ import {
   TextInput,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getDecks } from '../utils/helpers';
+import { addCardToDeck } from '../actions';
+import { connect } from 'react-redux';
 
 class AddCard extends Component {
-  buttonPressed = (e) => {
-    Alert.alert('hi');
+  state = {
+    question: '',
+    answer: '',
+  };
+
+  onChangeQuestion = (event) => {
+    const { text } = event.nativeEvent;
+    this.setState({ question: text });
+  };
+
+  onChangeAnswer = (event) => {
+    const { text } = event.nativeEvent;
+    this.setState({ answer: text });
+  };
+
+  buttonPressed = () => {
+    const { itemId } = this.props.route.params;
+
+    const card = {
+      question: this.state.question,
+      answer: this.state.answer,
+    };
+
+    this.props.addCardToDeck(itemId, card);
+
+    this.props.navigation.navigate('Decks');
   };
 
   render() {
@@ -24,10 +49,20 @@ class AddCard extends Component {
       >
         <Text style={styles.title}>Add Question & Answer</Text>
         <View style={{ flexDirection: 'row', marginBottom: 12 }}>
-          <TextInput placeholder='Question' style={styles.textInput} />
+          <TextInput
+            value={this.state.question}
+            onChange={this.onChangeQuestion}
+            placeholder='Question'
+            style={styles.textInput}
+          />
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <TextInput placeholder='Answer' style={styles.textInput} />
+          <TextInput
+            value={this.state.answer}
+            onChange={this.onChangeAnswer}
+            placeholder='Answer'
+            style={styles.textInput}
+          />
         </View>
 
         <View style={{ flexDirection: 'row', marginTop: 50 }}>
@@ -40,13 +75,19 @@ class AddCard extends Component {
   }
 }
 
-export default AddCard;
+const mapStateToProps = (state) => {
+  return {
+    decks: state,
+  };
+};
+
+export default connect(mapStateToProps, { addCardToDeck })(AddCard);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    marginTop: 150,
+    marginTop: 100,
   },
   title: { fontSize: 25, marginBottom: 25, color: 'lightslategrey' },
   button: {

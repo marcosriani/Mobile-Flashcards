@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { getDecks } from '../utils/helpers';
 
 class DeckDetail extends Component {
   buttonPressedAddCard = (e) => {
     this.props.navigation.navigate('AddCard', {
-      itemId: this.props.id,
-      numberOfCards: this.props.numberOfCards,
+      itemId: this.props.route.params.itemId,
     });
   };
 

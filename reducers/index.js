@@ -36,8 +36,7 @@ const decks = (state = {}, action) => {
       };
 
     case ADD_CARD:
-      const { deckId, card } = state;
-
+      const { deckId, card } = action;
       return {
         ...state,
         [deckId]: {
