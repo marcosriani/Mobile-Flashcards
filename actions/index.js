@@ -19,7 +19,7 @@ export const addDeck = (title) => ({
 });
 
 export const removeDeck = (id) => ({
-  type: RECEIVE_DECKS,
+  type: REMOVE_DECK,
   id,
 });
 

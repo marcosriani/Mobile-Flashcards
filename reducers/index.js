@@ -31,8 +31,10 @@ const decks = (state = {}, action) => {
 
       const { [id]: value, ...restOfState } = state;
 
+      console.log(restOfState);
+
       return {
-        restOfState,
+        ...restOfState,
       };
 
     case ADD_CARD:

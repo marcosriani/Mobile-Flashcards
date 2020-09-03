@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
+import { removeDeck } from '../actions';
 
 class DeckDetail extends Component {
   buttonPressedAddCard = (e) => {
@@ -14,12 +15,16 @@ class DeckDetail extends Component {
 
     this.props.navigation.navigate('Quiz', {
       itemId: JSON.parse(JSON.stringify(itemId)),
-      numberOfCards: this.props.decks[itemId].questions.length,
+      numberOfCards:
+        this.props.decks[itemId] !== undefined
+          ? this.props.decks[itemId].questions.length
+          : null,
     });
   };
 
-  buttonPressedDelete = (e) => {
-    Alert.alert('Deleted');
+  buttonPressedDelete = () => {
+    this.props.removeDeck(this.props.route.params.itemId);
+    this.props.navigation.navigate('Decks');
   };
 
   render() {
@@ -30,7 +35,11 @@ class DeckDetail extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>{cardId}</Text>
         <Text style={styles.subTitle}>
-          {this.props.decks[itemId].questions.length} cards
+          {`${
+            this.props.decks[itemId] !== undefined
+              ? this.props.decks[itemId].questions.length
+              : null
+          } cards`}
         </Text>
 
         <View style={{ flexDirection: 'row', marginTop: 30 }}>
@@ -74,7 +83,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(DeckDetail);
+export default connect(mapStateToProps, { removeDeck })(DeckDetail);
 
 const styles = StyleSheet.create({
   container: {

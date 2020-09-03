@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 class Score extends Component {
   buttonPressedReset = (e) => {
-    Alert.alert('Reset');
+    this.props.navigation.navigate('Quiz');
   };
 
   buttonPressedBackToDecks = (e) => {
