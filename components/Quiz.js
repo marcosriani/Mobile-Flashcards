@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
-import { getDecks } from '../utils/helpers';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 class Quiz extends Component {
@@ -15,23 +7,56 @@ class Quiz extends Component {
     showAnswer: false,
     buttonText: 'Show Answer',
     questionIndex: 0,
+    correct: 0,
+    incorrect: 0,
   };
 
-  buttonPressedCorrect = (e) => {
+  buttonActions = () => {
+    // If the deck has question and the correct/incorrect button is pressed
+    // Also check if the deck if finished with all it's questions, then redirect to Score component
+    if (this.props.decks[this.props.itemId].questions.length > 0) {
+      if (this.state.questionIndex + 1 > this.props.numberOfCards) {
+        this.props.navigation.navigate('Score', {
+          itemId: this.props.itemId,
+          correct: this.state.correct,
+          numberOfCards: this.props.numberOfCards,
+        });
+
+        this.setState((prevState) => ({
+          questionIndex: 0,
+        }));
+      }
+    }
+  };
+
+  buttonPressedCorrect = () => {
     // Changing questions and answer in card
-    this.setState((prevState) => ({
-      showAnswer: false,
-      buttonText: 'Show Answer',
-      questionIndex: prevState.questionIndex + 1,
-    }));
-    // this.props.navigation.navigate('Score', {
-    //   itemId: this.props.id,
-    //   otherParam: 'anything you want here',
-    // });
+    this.setState(
+      (prevState) => ({
+        showAnswer: false,
+        buttonText: 'Show Answer',
+        questionIndex: prevState.questionIndex + 1,
+        correct: prevState.correct + 1,
+      }),
+      () => {
+        this.buttonActions();
+      }
+    );
   };
 
-  buttonPressedIncorrect = (e) => {
-    Alert.alert('Incorrect');
+  buttonPressedIncorrect = () => {
+    // Changing questions and answer in card
+    this.setState(
+      (prevState) => ({
+        showAnswer: false,
+        buttonText: 'Show Answer',
+        questionIndex: prevState.questionIndex + 1,
+        incorrect: prevState.incorrect + 1,
+      }),
+      () => {
+        this.buttonActions();
+      }
+    );
   };
 
   buttonPressedAnswer = (e) => {
@@ -58,88 +83,101 @@ class Quiz extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.numberOfCards}>
-          {this.props.itemId} - {this.state.questionIndex + 1}/
-          {this.props.numberOfCards}
-        </Text>
+        {decks[itemId].questions.length !== 0 ? (
+          <View>
+            <Text style={styles.numberOfCards}>
+              {this.props.itemId} - {this.state.questionIndex + 1}/
+              {this.props.numberOfCards}
+            </Text>
 
-        <View style={{ alignItems: 'center' }}>
-          {this.state.showAnswer ? (
-            <View style={styles.card}>
-              <Text style={styles.title}>Answer</Text>
+            <View style={{ alignItems: 'center' }}>
+              {this.state.showAnswer ? (
+                <View style={styles.card}>
+                  <Text style={styles.title}>Answer</Text>
+                  <Text>
+                    {decks[itemId].questions[this.state.questionIndex] !==
+                      undefined &&
+                      decks[itemId].questions[this.state.questionIndex].answer}
+                  </Text>
+                </View>
+              ) : (
+                <View style={styles.card}>
+                  <Text style={styles.title}>Question</Text>
 
-              <Text>
-                {decks[itemId].questions[this.state.questionIndex].answer}
-              </Text>
+                  <Text>
+                    {decks[itemId].questions[this.state.questionIndex] !==
+                      undefined &&
+                      decks[itemId].questions[this.state.questionIndex]
+                        .question}
+                  </Text>
+                </View>
+              )}
+              <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: buttonShowAnswerColor,
+                      flex: 0.9,
+                      height: 60,
+                    },
+                  ]}
+                  onPress={this.buttonPressedAnswer}
+                >
+                  <Text style={styles.text}>{this.state.buttonText}</Text>
+                </TouchableOpacity>
+              </View>
+
+              {this.state.showAnswer && (
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ marginTop: 5, height: 60, width: 170 }}>
+                    <TouchableOpacity
+                      style={[
+                        styles.button,
+                        {
+                          backgroundColor: buttonCorrectColor,
+                          flex: 0.9,
+                          height: 60,
+                        },
+                      ]}
+                      onPress={this.buttonPressedCorrect}
+                    >
+                      <Text style={styles.text}>Correct</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ marginTop: 5, height: 60, width: 170 }}>
+                    <TouchableOpacity
+                      style={[
+                        styles.button,
+                        {
+                          backgroundColor: buttonIncorrectColor,
+                          flex: 0.9,
+                          height: 60,
+                        },
+                      ]}
+                      onPress={this.buttonPressedIncorrect}
+                    >
+                      <Text style={styles.text}>Incorrect</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
             </View>
-          ) : (
-            <View style={styles.card}>
-              <Text style={styles.title}>Question</Text>
-
-              <Text>
-                {decks[itemId].questions[this.state.questionIndex].question}
-              </Text>
-            </View>
-          )}
-          <View style={{ flexDirection: 'row', marginTop: 15 }}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                {
-                  backgroundColor: buttonShowAnswerColor,
-                  flex: 0.9,
-                  height: 60,
-                },
-              ]}
-              onPress={this.buttonPressedAnswer}
-            >
-              <Text style={styles.text}>{this.state.buttonText}</Text>
-            </TouchableOpacity>
           </View>
-
-          {this.state.showAnswer && (
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ marginTop: 5, height: 60, width: 170 }}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: buttonCorrectColor,
-                      flex: 0.9,
-                      height: 60,
-                    },
-                  ]}
-                  onPress={this.buttonPressedCorrect}
-                >
-                  <Text style={styles.text}>Correct</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={{ marginTop: 5, height: 60, width: 170 }}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: buttonIncorrectColor,
-                      flex: 0.9,
-                      height: 60,
-                    },
-                  ]}
-                  onPress={this.buttonPressedIncorrect}
-                >
-                  <Text style={styles.text}>Incorrect</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-        </View>
+        ) : (
+          <View style={styles.noCardsAlert}>
+            <Text style={{ fontSize: 25, color: 'lightslategrey' }}>
+              Sorry, you cannot take a quiz because there are no cards in the
+              deck.
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps);
-
   const { itemId, numberOfCards } = ownProps.route.params;
 
   return {
@@ -170,6 +208,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  noCardsAlert: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    padding: 30,
   },
   title: {
     color: 'lightslategrey',

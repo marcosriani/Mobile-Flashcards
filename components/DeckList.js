@@ -16,15 +16,16 @@ class DeckList extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          {Object.values(decks).map((item) => (
-            <Deck
-              key={item.title}
-              deckTitle={item.title}
-              numberOfCards={item.questions.length}
-              navigation={this.props.navigation}
-              id={item.title}
-            />
-          ))}
+          {Object.values(decks) !== undefined &&
+            Object.values(decks).map((item) => (
+              <Deck
+                key={item.title}
+                deckTitle={item.title}
+                numberOfCards={item.questions.length}
+                navigation={this.props.navigation}
+                id={item.title}
+              />
+            ))}
         </ScrollView>
       </SafeAreaView>
     );

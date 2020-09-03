@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 class Score extends Component {
   buttonPressedReset = (e) => {
@@ -14,22 +7,28 @@ class Score extends Component {
   };
 
   buttonPressedBackToDecks = (e) => {
-    this.props.navigation.navigate('Decks', {
-      itemId: this.props.id,
-      otherParam: 'anything you want here',
-    });
+    this.props.navigation.navigate('Decks');
   };
 
   render() {
+    const { itemId, correct, numberOfCards } = this.props.route.params;
+
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>{itemId}</Text>
+
         <View style={{ alignItems: 'center' }}>
           <View style={styles.card}>
             <Text style={styles.title}>Quiz Completed</Text>
 
-            <Text style={styles.correct}>2/3 Correct</Text>
+            <Text style={styles.correct}>
+              {correct}/{numberOfCards} Correct
+            </Text>
             <Text style={{ margin: 10, color: 'lightslategrey' }}>
-              Percentage correct: <Text style={styles.correct}>67%</Text>
+              Percentage correct:{' '}
+              <Text style={styles.correct}>
+                {((correct / numberOfCards) * 100).toFixed(0) + '%'}
+              </Text>
             </Text>
           </View>
 
