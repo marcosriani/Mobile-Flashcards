@@ -6,7 +6,6 @@ class Deck extends Component {
   buttonPressed = (e) => {
     this.props.navigation.navigate('DeckDetail', {
       itemId: this.props.id,
-      numberOfCards: this.props.numberOfCards,
     });
   };
 

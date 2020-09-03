@@ -7,11 +7,32 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-import { getDecks } from '../utils/helpers';
+import { addDeck } from '../actions';
+import { connect } from 'react-redux';
 
 class AddDeck extends Component {
-  buttonPressed = (e) => {
-    Alert.alert('hi');
+  state = {
+    title: '',
+  };
+
+  onChangeTitle = (event) => {
+    const { text } = event.nativeEvent;
+    this.setState({ title: text });
+  };
+
+  buttonPressedAddDeck = () => {
+    const foundTitle = Object.keys(this.props.decks).find(
+      (item) => item === this.state.title.trim()
+    );
+
+    if (foundTitle === undefined) {
+      this.props.addDeck(this.state.title);
+      this.props.navigation.navigate('Decks');
+    } else {
+      Alert.alert('This Deck Exist. Try Another Title.');
+    }
+
+    this.setState({ title: '' });
   };
 
   render() {
@@ -19,11 +40,19 @@ class AddDeck extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>Add a title to your new deck</Text>
         <View style={{ flexDirection: 'row' }}>
-          <TextInput placeholder='Deck Title' style={styles.textInput} />
+          <TextInput
+            value={this.state.title}
+            onChange={this.onChangeTitle}
+            placeholder='Deck Title'
+            style={styles.textInput}
+          />
         </View>
 
         <View style={{ flexDirection: 'row', marginTop: 50 }}>
-          <TouchableOpacity style={styles.button} onPress={this.buttonPressed}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.buttonPressedAddDeck}
+          >
             <Text style={styles.text}>Create Deck</Text>
           </TouchableOpacity>
         </View>
@@ -32,7 +61,14 @@ class AddDeck extends Component {
   }
 }
 
-export default AddDeck;
+const mapStateToProps = (state) => {
+  // Need to check if title already exist or not
+  return {
+    decks: state,
+  };
+};
+
+export default connect(mapStateToProps, { addDeck })(AddDeck);
 
 const styles = StyleSheet.create({
   container: {

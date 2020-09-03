@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { getDecks } from '../utils/helpers';
+import { connect } from 'react-redux';
 
 class DeckDetail extends Component {
   buttonPressedAddCard = (e) => {
@@ -14,7 +14,7 @@ class DeckDetail extends Component {
 
     this.props.navigation.navigate('Quiz', {
       itemId: JSON.parse(JSON.stringify(itemId)),
-      numberOfCards: JSON.parse(JSON.stringify(numberOfCards)),
+      numberOfCards: this.props.decks[itemId].questions.length,
     });
   };
 
@@ -23,14 +23,15 @@ class DeckDetail extends Component {
   };
 
   render() {
-    const { itemId, numberOfCards } = this.props.route.params;
+    const { itemId } = this.props.route.params;
     const cardId = JSON.parse(JSON.stringify(itemId));
-    const numberOfQuestions = JSON.parse(JSON.stringify(numberOfCards));
 
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{cardId}</Text>
-        <Text style={styles.subTitle}>{numberOfQuestions} cards</Text>
+        <Text style={styles.subTitle}>
+          {this.props.decks[itemId].questions.length} cards
+        </Text>
 
         <View style={{ flexDirection: 'row', marginTop: 30 }}>
           <TouchableOpacity
@@ -67,7 +68,13 @@ class DeckDetail extends Component {
   }
 }
 
-export default DeckDetail;
+const mapStateToProps = (state) => {
+  return {
+    decks: state,
+  };
+};
+
+export default connect(mapStateToProps)(DeckDetail);
 
 const styles = StyleSheet.create({
   container: {

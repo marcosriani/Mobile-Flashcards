@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   TextInput,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -37,7 +36,7 @@ class AddCard extends Component {
 
     this.props.addCardToDeck(itemId, card);
 
-    this.props.navigation.navigate('Decks');
+    this.props.navigation.navigate('DeckDetail');
   };
 
   render() {

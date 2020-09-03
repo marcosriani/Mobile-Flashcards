@@ -1,6 +1,6 @@
 import {
   RECEIVE_DECKS,
-  ADD_DECKS,
+  ADD_DECK,
   REMOVE_DECK,
   ADD_CARD,
   RESET_STORE,
@@ -15,7 +15,7 @@ const decks = (state = {}, action) => {
         ...state,
         ...action.decks,
       };
-    case ADD_DECKS:
+    case ADD_DECK:
       const { title } = action;
 
       return {
