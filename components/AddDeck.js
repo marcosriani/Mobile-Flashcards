@@ -36,6 +36,8 @@ class AddDeck extends Component {
   };
 
   render() {
+    const buttonColor = this.state.title === '' ? 'lightgray' : 'deepskyblue';
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Add a title to your new deck</Text>
@@ -50,8 +52,9 @@ class AddDeck extends Component {
 
         <View style={{ flexDirection: 'row', marginTop: 50 }}>
           <TouchableOpacity
-            style={styles.button}
+            style={[styles.button, { backgroundColor: buttonColor }]}
             onPress={this.buttonPressedAddDeck}
+            disabled={this.state.title === ''}
           >
             <Text style={styles.text}>Create Deck</Text>
           </TouchableOpacity>
@@ -79,7 +82,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 25, marginBottom: 25, color: 'lightslategrey' },
   button: {
     alignItems: 'center',
-    backgroundColor: 'deepskyblue',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
