@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addCardToDeck } from '../actions';
@@ -26,7 +27,7 @@ class AddCard extends Component {
     this.setState({ answer: text });
   };
 
-  buttonPressed = () => {
+  buttonPressedSubmit = () => {
     const { itemId } = this.props.route.params;
 
     const card = {
@@ -34,12 +35,26 @@ class AddCard extends Component {
       answer: this.state.answer,
     };
 
-    this.props.addCardToDeck(itemId, card);
+    // Validation
+    const foundCard = this.props.decks[itemId].questions.find((item) => {
+      return item.question.trim() === this.state.question.trim();
+    });
 
-    this.props.navigation.navigate('DeckDetail');
+    if (foundCard === undefined) {
+      this.props.addCardToDeck(itemId, card);
+      this.props.navigation.navigate('DeckDetail');
+    } else {
+      Alert.alert('This question already exist. Try another question.');
+      this.setState({ question: '', answer: '' });
+    }
   };
 
   render() {
+    const buttonColor =
+      this.state.question === '' || this.state.answer === ''
+        ? 'lightgray'
+        : 'deepskyblue';
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={styles.container}
@@ -65,7 +80,11 @@ class AddCard extends Component {
         </View>
 
         <View style={{ flexDirection: 'row', marginTop: 50 }}>
-          <TouchableOpacity style={styles.button} onPress={this.buttonPressed}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColor }]}
+            onPress={this.buttonPressedSubmit}
+            disabled={this.state.question === '' || this.state.answer === ''}
+          >
             <Text style={styles.text}>Submit</Text>
           </TouchableOpacity>
         </View>
@@ -91,7 +110,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 25, marginBottom: 25, color: 'lightslategrey' },
   button: {
     alignItems: 'center',
-    backgroundColor: 'deepskyblue',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
