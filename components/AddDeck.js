@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { addDeck } from '../actions';
 import { connect } from 'react-redux';
+import { saveDeckTitleAsyncStorage } from '../utils/api';
 
 class AddDeck extends Component {
   state = {
@@ -27,6 +28,7 @@ class AddDeck extends Component {
 
     if (foundTitle === undefined) {
       this.props.addDeck(this.state.title);
+      saveDeckTitleAsyncStorage(this.state.title);
       this.props.navigation.navigate('Decks');
     } else {
       Alert.alert('This Deck Exist. Try Another Title.');

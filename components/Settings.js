@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { resetStore } from '../actions';
+import { resetDecksAsyncStorage } from '../utils/api';
 import { connect } from 'react-redux';
 
 class Settings extends Component {
@@ -9,6 +10,7 @@ class Settings extends Component {
       {
         text: 'Delete Data',
         onPress: () => {
+          resetDecksAsyncStorage();
           this.props.resetStore();
           Alert.alert('Your data has been reset successfully!');
         },

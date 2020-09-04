@@ -1,7 +1,4 @@
-// import { decksInitialData } from '../utils/_DATA';
 import { getDecksAsyncStorage } from '../utils/api';
-
-// const getData = () => decksInitialData;
 
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const ADD_DECK = 'ADD_DECK';

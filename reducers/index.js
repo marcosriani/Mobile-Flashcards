@@ -6,7 +6,7 @@ import {
   RESET_STORE,
 } from '../actions/';
 
-import { decksData } from '../utils/_DATA';
+import { decksInitialData } from '../utils/_DATA';
 
 const decks = (state = {}, action) => {
   switch (action.type) {
@@ -48,7 +48,9 @@ const decks = (state = {}, action) => {
       };
 
     case RESET_STORE:
-      return decksData;
+      return {
+        ...decksInitialData,
+      };
 
     default:
       return state;

@@ -20,6 +20,7 @@ export const getDecksAsyncStorage = async () => {
         );
   } catch (e) {
     Alert.alert('Error while fetching decks data');
+    console.log(e);
   }
 };
 
@@ -30,6 +31,7 @@ export const getDeckAsyncStorage = async (id) => {
     return deckValue !== null ? JSON.parse(deckValue)[id] : null;
   } catch (e) {
     Alert.alert('Error while fetching deck data');
+    console.log(e);
   }
 };
 
@@ -47,6 +49,7 @@ export const saveDeckTitleAsyncStorage = async (title) => {
     );
   } catch (e) {
     Alert.alert('Error while saving new Deck');
+    console.log(e);
   }
 };
 
@@ -54,7 +57,7 @@ export const saveDeckTitleAsyncStorage = async (title) => {
 // and will add the card to the list of questions for the deck with the associated title
 export const addCardToDeckAsyncStorage = async (title, card) => {
   try {
-    const deck = await getDeck(title);
+    const deck = await getDeckAsyncStorage(title);
 
     await AsyncStorage.mergeItem(
       DECKS_STORAGE_KEY,
@@ -66,24 +69,31 @@ export const addCardToDeckAsyncStorage = async (title, card) => {
     );
   } catch (e) {
     Alert.alert('Error while saving card');
+    console.log(e);
   }
 };
 
 // Remove specific deck
 // export const removeDeckAsyncStorage = async (id) => {
-//   const deck = await getDeck(id);
+//   const deck = await getDeckAsyncStorage(id);
 
 //   try {
 //     await AsyncStorage.removeItem(DECKS_STORAGE_KEY);
 //   } catch (e) {
 //     Alert.alert('Error while fetching deck data');
+// console.log(e)
+
 //   }
 // };
 
-// export const resetDecksAsyncStorage = () => {
-//   try {
-//     await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks))
-//   } catch(e){
-//     Alert.alert('Error while resetting data');
-//   }
-// }
+export const resetDecksAsyncStorage = async () => {
+  try {
+    await AsyncStorage.setItem(
+      DECKS_STORAGE_KEY,
+      JSON.stringify(decksInitialData)
+    );
+  } catch (err) {
+    Alert.alert('Error while resetting data');
+    console.log(e);
+  }
+};

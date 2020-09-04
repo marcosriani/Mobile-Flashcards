@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { addCardToDeck } from '../actions';
+import { addCardToDeckAsyncStorage } from '../utils/api';
 import { connect } from 'react-redux';
 
 class AddCard extends Component {
@@ -42,6 +43,7 @@ class AddCard extends Component {
 
     if (foundCard === undefined) {
       this.props.addCardToDeck(itemId, card);
+      addCardToDeckAsyncStorage(itemId, card);
       this.props.navigation.navigate('DeckDetail');
     } else {
       Alert.alert('This question already exist. Try another question.');
