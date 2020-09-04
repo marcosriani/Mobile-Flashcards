@@ -1,6 +1,7 @@
-import { decksData } from '../utils/_DATA';
+// import { decksInitialData } from '../utils/_DATA';
+import { getDecksAsyncStorage } from '../utils/api';
 
-const getData = () => decksData;
+// const getData = () => decksInitialData;
 
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const ADD_DECK = 'ADD_DECK';
@@ -36,6 +37,6 @@ export const resetStore = () => ({
 // Asynchronous action creator
 // To handle the initial data
 export const handleInitialData = () => async (dispatch) => {
-  const response = await getData();
+  const response = await getDecksAsyncStorage();
   dispatch(receiveDecks(response));
 };
