@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { removeDeck } from '../actions';
+import { removeDeckAsyncStorage } from '../utils/api';
 
 class DeckDetail extends Component {
   buttonPressedAddCard = (e) => {
@@ -24,6 +25,7 @@ class DeckDetail extends Component {
 
   buttonPressedDelete = () => {
     this.props.removeDeck(this.props.route.params.itemId);
+    removeDeckAsyncStorage(this.props.route.params.itemId);
     this.props.navigation.navigate('Decks');
   };
 

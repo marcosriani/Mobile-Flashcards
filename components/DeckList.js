@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Alert, SafeAreaView, ScrollView } from 'react-native';
 import Deck from './Deck';
-import { getDecks } from '../utils/helpers';
 import { handleInitialData } from '../actions/';
 import { connect } from 'react-redux';
+import { resetDecksAsyncStorage } from '../utils/api';
 
 class DeckList extends Component {
   componentDidMount() {
     this.props.handleInitialData();
+    // resetDecksAsyncStorage();
   }
 
   render() {

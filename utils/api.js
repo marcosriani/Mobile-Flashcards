@@ -74,18 +74,32 @@ export const addCardToDeckAsyncStorage = async (title, card) => {
 };
 
 // Remove specific deck
-// export const removeDeckAsyncStorage = async (id) => {
-//   const deck = await getDeckAsyncStorage(id);
+export const removeDeckAsyncStorage = async (id) => {
+  try {
+    const results = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+    const data = JSON.parse(results);
 
-//   try {
-//     await AsyncStorage.removeItem(DECKS_STORAGE_KEY);
-//   } catch (e) {
-//     Alert.alert('Error while fetching deck data');
-// console.log(e)
+    const newDeckData = Object.values(data).filter((deckObj) => {
+      return deckObj.title !== id;
+    });
 
-//   }
-// };
+    console.log('here', newDeckData);
 
+    // // Filtering out the deck selected
+    // const decks = JSON.parse(getDecksAsyncStorage(DECKS_STORAGE_KEY)).then(
+    //   (item) => {
+    //     Object.values(item).filter((deckObj) => deckObj.title !== deck.title);
+    //   }
+    // );
+
+    // await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+  } catch (e) {
+    Alert.alert('Error while fetching deck data');
+    console.log(e);
+  }
+};
+
+// Reset to initial data
 export const resetDecksAsyncStorage = async () => {
   try {
     await AsyncStorage.setItem(

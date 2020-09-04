@@ -48,9 +48,7 @@ const decks = (state = {}, action) => {
       };
 
     case RESET_STORE:
-      return {
-        ...decksInitialData,
-      };
+      return decksInitialData;
 
     default:
       return state;
