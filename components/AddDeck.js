@@ -26,20 +26,22 @@ class AddDeck extends Component {
       (item) => item === this.state.title.trim()
     );
 
-    if (foundTitle === undefined) {
-      this.props.addDeck(this.state.title);
-      saveDeckTitleAsyncStorage(this.state.title);
-      this.props.navigation.navigate('Decks');
-    } else {
-      Alert.alert('This Deck Exist. Try Another Title.');
-    }
+    if (this.state.title.trim().length > 0) {
+      if (foundTitle === undefined) {
+        this.props.addDeck(this.state.title);
+        saveDeckTitleAsyncStorage(this.state.title);
+        Alert.alert(`${this.state.title} - Deck created successfully!`);
+      } else {
+        Alert.alert('This Deck Exist. Try Another Title.');
+      }
 
-    this.setState({ title: '' });
+      this.setState({ title: '' });
+    }
   };
 
   render() {
-    const buttonColor = this.state.title === '' ? 'lightgray' : 'deepskyblue';
-
+    const buttonColor =
+      this.state.title.trim().length === 0 ? 'lightgray' : 'deepskyblue';
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Add a title to your new deck</Text>

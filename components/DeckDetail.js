@@ -35,7 +35,6 @@ class DeckDetail extends Component {
       },
       {
         text: 'Cancel',
-        onPress: () => this.props.navigation.navigate('Settings'),
       },
     ]);
   };

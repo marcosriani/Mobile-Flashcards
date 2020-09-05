@@ -17,7 +17,6 @@ class Settings extends Component {
       },
       {
         text: 'Cancel',
-        onPress: () => this.props.navigation.navigate('Settings'),
       },
     ]);
   };
