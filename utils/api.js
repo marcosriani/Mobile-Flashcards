@@ -82,9 +82,12 @@ export const removeDeckAsyncStorage = async (id) => {
     data[id] = undefined;
     delete data[id];
 
-    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data));
+    await AsyncStorage.setItem(
+      DECKS_STORAGE_KEY,
+      JSON.stringify(data)
+    ).then(() => Alert.alert('Deck deleted successfully!'));
   } catch (e) {
-    Alert.alert('Error while fetching deck data');
+    Alert.alert('Error while deleting deck ');
     console.log(e);
   }
 };

@@ -24,9 +24,20 @@ class DeckDetail extends Component {
   };
 
   buttonPressedDelete = () => {
-    this.props.removeDeck(this.props.route.params.itemId);
-    removeDeckAsyncStorage(this.props.route.params.itemId);
-    this.props.navigation.navigate('Decks');
+    Alert.alert('Delete Deck', 'Are you sure you want to delete this deck?', [
+      {
+        text: 'Delete',
+        onPress: () => {
+          this.props.removeDeck(this.props.route.params.itemId);
+          removeDeckAsyncStorage(this.props.route.params.itemId);
+          this.props.navigation.navigate('Decks');
+        },
+      },
+      {
+        text: 'Cancel',
+        onPress: () => this.props.navigation.navigate('Settings'),
+      },
+    ]);
   };
 
   render() {
