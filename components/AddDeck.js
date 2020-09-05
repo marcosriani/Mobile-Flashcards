@@ -31,6 +31,9 @@ class AddDeck extends Component {
         this.props.addDeck(this.state.title);
         saveDeckTitleAsyncStorage(this.state.title);
         Alert.alert(`${this.state.title} - Deck created successfully!`);
+        this.props.navigation.navigate('DeckDetail', {
+          itemId: this.state.title,
+        });
       } else {
         Alert.alert('This Deck Exist. Try Another Title.');
       }
