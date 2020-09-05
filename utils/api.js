@@ -79,27 +79,16 @@ export const removeDeckAsyncStorage = async (id) => {
     const results = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
     const data = JSON.parse(results);
 
-    const newDeckData = Object.values(data).filter((deckObj) => {
-      return deckObj.title !== id;
-    });
+    data[id] = undefined;
+    delete data[id];
 
-    console.log('here', newDeckData);
-
-    // // Filtering out the deck selected
-    // const decks = JSON.parse(getDecksAsyncStorage(DECKS_STORAGE_KEY)).then(
-    //   (item) => {
-    //     Object.values(item).filter((deckObj) => deckObj.title !== deck.title);
-    //   }
-    // );
-
-    // await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
     Alert.alert('Error while fetching deck data');
     console.log(e);
   }
 };
-
-// Reset to initial data
+99;
 export const resetDecksAsyncStorage = async () => {
   try {
     await AsyncStorage.setItem(
