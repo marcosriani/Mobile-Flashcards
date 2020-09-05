@@ -91,7 +91,8 @@ export const removeDeckAsyncStorage = async (id) => {
     console.log(e);
   }
 };
-99;
+
+// Reset data
 export const resetDecksAsyncStorage = async () => {
   try {
     await AsyncStorage.setItem(

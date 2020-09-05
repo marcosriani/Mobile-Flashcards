@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
 import { connect } from 'react-redux';
 
 class Quiz extends Component {
@@ -22,7 +23,10 @@ class Quiz extends Component {
           numberOfCards: this.props.numberOfCards,
         });
 
-        this.setState((prevState) => ({
+        // Notification
+        clearLocalNotification().then(setLocalNotification);
+
+        this.setState(() => ({
           questionIndex: 0,
         }));
       }

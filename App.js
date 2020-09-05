@@ -1,6 +1,7 @@
 // import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, StatusBar } from 'react-native';
+import { setLocalNotification } from './utils/helpers';
 
 // Navigator
 import MainNavigator from './navigation/MainNavigator';
@@ -23,18 +24,24 @@ const UdaciStatusBar = ({ backgroundColor, ...props }) => {
   );
 };
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <View style={{ flex: 1 }}>
-        <UdaciStatusBar
-          backgroundColor='lightskyblue'
-          barStyle='light-content'
-        />
-        <MainNavigator />
-      </View>
-    </Provider>
-  );
+export default class App extends Component {
+  ComponentDidMount() {
+    setLocalNotification();
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <View style={{ flex: 1 }}>
+          <UdaciStatusBar
+            backgroundColor='lightskyblue'
+            barStyle='light-content'
+          />
+          <MainNavigator />
+        </View>
+      </Provider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({});
